@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ActPlay - O Futuro do Entretenimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            400: '#4ade80',
+                            500: '#39ff14', // Verde Neon
+                            600: '#22c55e',
+                            900: '#064e3b',
+                        },
+                        dark: {
+                            800: '#111827',
+                            900: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-bg {
+            background-image: radial-gradient(circle at top right, rgba(57, 255, 20, 0.15), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.15), transparent 40%);
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Animação para o Looping Contínuo do Carrossel */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 35s linear infinite;
+        }
+        .animate-marquee-slow {
+            animation: marquee 45s linear infinite;
+        }
+        /* Pausar quando o mouse estiver em cima ou quando tocado no mobile */
+        .group\/slider:hover .animate-marquee,
+        .group\/slider:active .animate-marquee,
+        .group\/logos:hover .animate-marquee-slow,
+        .group\/logos:active .animate-marquee-slow {
+            animation-play-state: paused;
+        }
+        
+        /* Animações Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Animação Pulse Customizada para o Botão Principal */
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 20px rgba(57,255,20,0.3), 0 0 0 0 rgba(57, 255, 20, 0.5); }
+            70% { box-shadow: 0 0 20px rgba(57,255,20,0.3), 0 0 0 15px rgba(57, 255, 20, 0); }
+            100% { box-shadow: 0 0 20px rgba(57,255,20,0.3), 0 0 0 0 rgba(57, 255, 20, 0); }
+        }
+        .btn-pulse {
+            animation: glow-pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-white font-sans antialiased overflow-x-hidden">
+
+    <!-- Navbar Expandida -->
+    <nav class="fixed w-full z-50 glass-card transition-all duration-300 border-b border-transparent" id="navbar">
+        <div class="w-full mx-auto px-4 sm:px-8 lg:px-12">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-play text-brand-500 text-2xl"></i>
+                    <span class="font-bold text-2xl tracking-tight">Act<span class="text-brand-500">Play</span></span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#destaques" class="text-gray-300 hover:text-white transition">Destaques</a>
+                    <a href="#assista-onde-quiser" class="text-gray-300 hover:text-white transition">Funcionalidades</a>
+                    <a href="#dispositivos" class="text-gray-300 hover:text-white transition">Dispositivos</a>
+                    <a href="#planos" class="text-gray-300 hover:text-white transition">Planos</a>
+                    <a href="#planos" class="bg-gradient-to-r from-brand-500 to-emerald-500 hover:from-brand-400 hover:to-emerald-400 px-6 py-2.5 rounded-full font-bold text-dark-900 transition shadow-[0_0_15px_rgba(57,255,20,0.4)]">
+                        Teste Grátis
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-t border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+                <a href="#destaques" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md font-medium mobile-link">Destaques</a>
+                <a href="#assista-onde-quiser" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md font-medium mobile-link">Funcionalidades</a>
+                <a href="#dispositivos" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md font-medium mobile-link">Dispositivos</a>
+                <a href="#planos" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md font-medium mobile-link">Planos</a>
+                <a href="#planos" class="bg-brand-500 text-dark-900 text-center block px-3 py-2 mt-2 rounded-md font-bold mobile-link shadow-[0_0_10px_rgba(57,255,20,0.3)]">Teste Grátis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 hero-bg min-h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
+                <div class="lg:col-span-6 text-center lg:text-left mb-12 lg:mb-0">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-900/50 border border-brand-500/50 text-brand-500 text-sm font-medium mb-6 shadow-[0_0_10px_rgba(57,255,20,0.2)]">
+                        <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+                        Servidores Estáveis 2026
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        O melhor do <br class="hidden lg:block" />
+                        <span class="bg-gradient-to-r from-brand-400 to-emerald-400 gradient-text drop-shadow-[0_0_8px_rgba(57,255,20,0.5)]">Entretenimento</span><br />
+                        na sua tela.
+                    </h1>
+                    <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto lg:mx-0">
+                        Tenha acesso a mais de 100.000 conteúdos entre Canais Ao Vivo, Filmes de cinema e Séries em qualidade 4K/FHD sem travamentos.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#planos" class="bg-gradient-to-r from-brand-500 to-emerald-500 hover:from-brand-400 hover:to-emerald-400 text-dark-900 px-8 py-4 rounded-full font-bold text-lg transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(57,255,20,0.4)]">
+                            <i class="fa-solid fa-rocket"></i> Assinar Agora
+                        </a>
+                        <a href="#" class="bg-transparent border border-brand-500/50 hover:border-brand-500 text-white hover:text-brand-500 px-8 py-4 rounded-full font-bold text-lg transition flex items-center justify-center gap-2 hover:bg-brand-500/10 shadow-[0_0_15px_rgba(57,255,20,0.1)]">
+                            <i class="fa-brands fa-whatsapp text-brand-500 text-xl"></i> Teste Grátis 3H
+                        </a>
+                    </div>
+                    <div class="mt-8 flex items-center justify-center lg:justify-start gap-4 text-sm text-gray-400">
+                        <div class="flex -space-x-2">
+                            <img class="w-8 h-8 rounded-full border-2 border-dark-900" src="https://i.pravatar.cc/100?img=1" alt="User">
+                            <img class="w-8 h-8 rounded-full border-2 border-dark-900" src="https://i.pravatar.cc/100?img=2" alt="User">
+                            <img class="w-8 h-8 rounded-full border-2 border-dark-900" src="https://i.pravatar.cc/100?img=3" alt="User">
+                        </div>
+                        <p>Mais de <span class="text-white font-bold">2.400</span> clientes satisfeitos</p>
+                    </div>
+                </div>
+                
+                <!-- Hero Image/Mockup -->
+                <div class="lg:col-span-6 relative">
+                   
+                    <div class="relative rounded-2xl overflow-hidden">
+                        <img src="src/images/banner2.png" alt="Interface IPTV ActPlay" class="w-full h-auto opacity-100">
+                        <!-- Floating play button over image -->
+
+                    </div>
+                    
+                    <!-- Floating badges -->
+                    <div class="absolute -bottom-6 -left-6 glass-card p-4 rounded-xl flex items-center gap-3 animate-bounce shadow-xl" style="animation-duration: 3s;">
+                        <div class="bg-blue-500/20 p-2 rounded-lg text-blue-400">
+                            <i class="fa-solid fa-tv text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400">Qualidade</p>
+                            <p class="font-bold text-white">4K UHD</p>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute -top-6 -right-6 glass-card p-4 rounded-xl flex items-center gap-3 animate-bounce shadow-xl" style="animation-duration: 4s; animation-delay: 1s;">
+                        <div class="bg-green-500/20 p-2 rounded-lg text-green-400">
+                            <i class="fa-solid fa-shield-halved text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400">Sistema</p>
+                            <p class="font-bold text-white">Anti-Trava</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Destaques Section (Com Fundo Preto e Looping Perfeito) -->
+    <section id="destaques" class="py-20 bg-gradient-to-b from-dark-900 to-black relative overflow-hidden">
+        <!-- Divisor Neon -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-px bg-gradient-to-r from-transparent via-brand-500/30 to-transparent"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-brand-500/50 to-transparent blur-[2px]"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
+                    Destaques da&ensp;<span class="relative inline-block mt-2 md:mt-0 px-6 py-2 border border-brand-500/50 bg-brand-500/10 rounded-xl shadow-[0_0_40px_rgba(57,255,20,0.5)] backdrop-blur-sm transform -skew-x-12">
+                        <span class="inline-block transform skew-x-12 animate-pulse text-white">Act<span class="text-brand-500 drop-shadow-[0_0_5px_rgba(57,255,20,0.5)]">Play</span></span>
+                    </span>
+                </h2>
+            </div>
+        </div>
+
+
+
+
+        <!-- Carousel Container expandido em 100% da largura -->
+        <div class="relative group/slider w-full overflow-hidden">
+            
+            <!-- Sombras laterais para efeito de profundidade -->
+            <div class="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none hidden md:block"></div>
+            <div class="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none hidden md:block"></div>
+
+            <!-- Área de rolagem em Looping CSS (2 blocos idênticos rolando juntos) -->
+            <div class="pl-4 md:pl-6">
+                <div class="flex w-[max-content] animate-marquee pt-4 pb-8">
+                    
+                    <!-- Primeiro Bloco de Cartazes -->
+                    <div class="flex gap-4 md:gap-6 pr-4 md:pr-6">
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="O Rei da TV">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">O Rei da TV</h3>
+                        </div>
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1606122017369-d782fffbedeb?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="O Menu">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">O Menu</h3>
+                        </div>
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Masterchef Brasil">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">Masterchef Brasil</h3>
+                        </div>
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Largados e Pelados e Congelados">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">Largados e Pelados<br>e Congelados</h3>
+                        </div>
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1627042633145-b780d842ba45?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Family Guy">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">Family Guy</h3>
+                        </div>
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="O Urso">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">O Urso</h3>
+                        </div>
+                    </div>
+
+                    <!-- Segundo Bloco (Clone Exato para o Looping Perfeito) -->
+                    <div class="flex gap-4 md:gap-6 pr-4 md:pr-6" aria-hidden="true">
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="O Rei da TV">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">O Rei da TV</h3>
+                        </div>
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1606122017369-d782fffbedeb?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="O Menu">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">O Menu</h3>
+                        </div>
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Masterchef Brasil">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">Masterchef Brasil</h3>
+                        </div>
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Largados e Pelados e Congelados">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">Largados e Pelados<br>e Congelados</h3>
+                        </div>
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1627042633145-b780d842ba45?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Family Guy">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">Family Guy</h3>
+                        </div>
+                        <div class="relative flex-none w-40 md:w-56 aspect-[2/3] rounded-xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-500 hover:shadow-[0_0_25px_rgba(57,255,20,0.3)] transition-all duration-300">
+                            <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="O Urso">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                            <h3 class="absolute bottom-4 left-4 right-4 text-white font-bold uppercase text-sm md:text-base tracking-wide drop-shadow-md">O Urso</h3>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+    <!-- Ribbon Logos de Canais (Carrossel Infinito) -->
+    <div class="w-full bg-black  relative group/logos">
+        <!-- Sombras laterais para efeito de profundidade -->
+        <div class="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-dark-900 to-transparent z-10 pointer-events-none hidden md:block"></div>
+        <div class="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-dark-900 to-transparent z-10 pointer-events-none hidden md:block"></div>
+
+        <div class="flex w-[max-content] animate-marquee-slow opacity-60 hover:opacity-100 transition-opacity duration-300">
+            <div class="flex items-center">
+                <!-- Logos Simuladas -->
+                <img src="src\images\logos\1-1.png">
+                <img src="src\images\logos\2-1.png">
+                <img src="src\images\logos\3-1.png">
+                <img src="src\images\logos\4-1.png">
+                <img src="src\images\logos\5-1.png">
+                <img src="src\images\logos\6-1.png">
+                <img src="src\images\logos\6-1.png">
+            </div>
+        </div>
+    </div>
+        
+    </section>
+
+    <!-- Assista Onde Quiser Section -->
+    <section id="assista-onde-quiser" class="py-24 bg-black relative overflow-hidden">
+        <!-- Divisor Neon -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-px bg-gradient-to-r from-transparent via-brand-500/30 to-transparent"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-brand-500/50 to-transparent blur-[2px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                
+                <!-- Imagem Personalizada (Esquerda) -->
+                <div class="lg:w-5/12 relative w-full group reveal">
+                    <div class="absolute inset-0 bg-brand-500/20 blur-[60px] rounded-full opacity-0 group-hover:opacity-50 transition duration-700 pointer-events-none"></div>
+                    <!-- Utilizando a sua imagem original (rapaz na poltrona) -->
+                    <img src="images/claudia2.png" alt="Mulher" class="max-w-xl">
+                </div>
+
+                <!-- Conteúdo (Direita) -->
+                <div class="lg:w-7/12 reveal">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-10 text-brand-500 uppercase tracking-wider drop-shadow-[0_0_10px_rgba(57,255,20,0.3)]">
+                        Assista Onde Quiser
+                    </h2>
+
+                    <div class="space-y-8 mb-8">
+                        <div class="flex items-start gap-5">
+                            <div class="w-16 h-16 rounded-full bg-brand-500 flex items-center justify-center text-dark-900 text-3xl shrink-0 shadow-[0_0_15px_rgba(57,255,20,0.5)] transform hover:scale-110 transition duration-300">
+                                <i class="fa-solid fa-film"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-500 text-lg mb-2">A ActPlay Tem Mais De 15 Mil Filmes!</h4>
+                                <p class="text-sm text-gray-300 leading-relaxed">Nossa plataforma é recheada de filmes organizados por gêneros. Além disso, você encontrará uma seção exclusiva dedicada apenas aos lançamentos, o que garante que, sempre que quiser, terá acesso às novidades. Por outro lado, se preferir assistir séries, também temos uma vasta seleção, que é atualizada regularmente.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-5">
+                            <div class="w-16 h-16 rounded-full bg-brand-500 flex items-center justify-center text-dark-900 text-3xl shrink-0 shadow-[0_0_15px_rgba(57,255,20,0.5)] transform hover:scale-110 transition duration-300">
+                                <i class="fa-solid fa-video"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-500 text-lg mb-2">Todas As Suas Séries Preferidas Estão Aqui.</h4>
+                                <p class="text-sm text-gray-300 leading-relaxed">Chega de pagar um absurdo por cada serviço de streaming; afinal, todos estão reunidos aqui na nossa plataforma! Além disso, você economiza e tem tudo em um só lugar. Dessa forma, assistir aos seus conteúdos preferidos se torna muito mais prático e acessível.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-5">
+                            <div class="w-16 h-16 rounded-full bg-brand-500 flex items-center justify-center text-dark-900 text-2xl shrink-0 shadow-[0_0_15px_rgba(57,255,20,0.5)] transform hover:scale-110 transition duration-300">
+                                <i class="fa-solid fa-tv"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-500 text-lg mb-2">Os Melhores Canais Da TV Fechada? A ActPlay Também Tem!</h4>
+                                <p class="text-sm text-gray-300 leading-relaxed">A ActPlay oferece milhares de canais, tanto fechados quanto abertos, disponíveis para que você possa acompanhar sua programação ao vivo. Assim, você nunca perde seus programas favoritos.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gray-400 leading-relaxed border-t border-gray-800 pt-6">
+                        A <span class="text-brand-500 font-medium">ActPlay</span> se adapta a você. Nossa plataforma está disponível em uma ampla variedade de dispositivos, incluindo Smart TVs, celulares, consoles de videogame e muito mais. <span class="font-bold text-white">Com a ActPlay, você pode assistir seus conteúdos favoritos a qualquer hora e em qualquer lugar</span>, sem se preocupar com compatibilidade.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dispositivos Section -->
+    <section id="dispositivos" class="py-20 bg-gradient-to-b from-black to-dark-900 relative text-center">
+        <!-- Divisor Neon -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-px bg-gradient-to-r from-transparent via-brand-500/30 to-transparent"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-brand-500/50 to-transparent blur-[2px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Compatível com seus <span class="text-brand-500">dispositivos favoritos</span></h2>
+            <p class="text-gray-400 text-lg mb-12 max-w-2xl mx-auto">Não importa onde você está, a ActPlay vai com você. Assista na TV da sala, no celular durante a viagem ou no PC.</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                <div class="flex flex-col items-center group reveal" style="transition-delay: 100ms;">
+                    <div class="w-20 h-20 bg-dark-800 border border-gray-700 rounded-full flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-500 group-hover:border-brand-500 transition duration-300 mb-4 shadow-lg">
+                        <i class="fa-solid fa-tv"></i>
+                    </div>
+                    <h4 class="font-bold">Smart TV</h4>
+                    <p class="text-xs text-gray-500">Samsung, LG, Android TV</p>
+                </div>
+                
+                <div class="flex flex-col items-center group reveal" style="transition-delay: 200ms;">
+                    <div class="w-20 h-20 bg-dark-800 border border-gray-700 rounded-full flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-500 group-hover:border-brand-500 transition duration-300 mb-4 shadow-lg">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                    </div>
+                    <h4 class="font-bold">Smartphone</h4>
+                    <p class="text-xs text-gray-500">Android & iOS</p>
+                </div>
+                
+                <div class="flex flex-col items-center group reveal" style="transition-delay: 300ms;">
+                    <div class="w-20 h-20 bg-dark-800 border border-gray-700 rounded-full flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-500 group-hover:border-brand-500 transition duration-300 mb-4 shadow-lg">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+                    <h4 class="font-bold">TV Box</h4>
+                    <p class="text-xs text-gray-500">Roku, Firestick, BTV</p>
+                </div>
+                
+                <div class="flex flex-col items-center group reveal" style="transition-delay: 400ms;">
+                    <div class="w-20 h-20 bg-dark-800 border border-gray-700 rounded-full flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-500 group-hover:border-brand-500 transition duration-300 mb-4 shadow-lg">
+                        <i class="fa-solid fa-laptop"></i>
+                    </div>
+                    <h4 class="font-bold">Computador</h4>
+                    <p class="text-xs text-gray-500">Windows, Mac, Web</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos Section -->
+    <section id="planos" class="py-20 relative bg-dark-900">
+        <!-- Divisor Neon -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-px bg-gradient-to-r from-transparent via-brand-500/30 to-transparent"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-brand-500/50 to-transparent blur-[2px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Escolha o melhor plano para <span class="text-brand-500">Você</span></h2>
+                <p class="text-gray-400 text-lg">Sem taxas ocultas, sem fidelidade. Cancele quando quiser.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Mensal -->
+                <div class="glass-card rounded-2xl p-8 border border-gray-700 flex flex-col hover:border-gray-500 transition reveal" style="transition-delay: 100ms;">
+                    <h3 class="text-xl font-medium text-gray-300 mb-2">Mensal</h3>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">R$ 29</span><span class="text-gray-400">,90/mês</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-6">Ideal para conhecer nosso serviço e catálogo.</p>
+                    
+                    <ul class="space-y-4 mb-8 flex-1">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm">1 Tela liberada</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm">+100 Mil Conteúdos</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm">Qualidade 4K/FHD</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm">Suporte via WhatsApp</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#" class="w-full block text-center bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 rounded-xl transition">
+                        Assinar Mensal
+                    </a>
+                </div>
+
+                <!-- Trimestral (Destaque Ajustado) -->
+                <div class="bg-gradient-to-b from-brand-900/60 to-dark-900 rounded-2xl p-8 border border-brand-500 flex flex-col transform md:-translate-y-4 relative shadow-[0_0_30px_rgba(57,255,20,0.2)] reveal" style="transition-delay: 200ms;">
+                    <div class="absolute inset-0 rounded-2xl bg-brand-500/5 pointer-events-none"></div>
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-500 text-dark-900 px-4 py-1 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(57,255,20,0.5)] z-10">
+                        MAIS VENDIDO
+                    </div>
+                    <h3 class="text-xl font-medium text-brand-400 mb-2 mt-2">Trimestral</h3>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">R$ 79</span><span class="text-gray-400">,90</span>
+                        <p class="text-xs text-brand-500 mt-1">Equivale a R$ 26,63/mês</p>
+                    </div>
+                    <p class="text-sm text-gray-300 mb-6">O equilíbrio perfeito entre preço e benefícios.</p>
+                    
+                    <ul class="space-y-4 mb-8 flex-1 relative z-10">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm font-medium text-white">Até 2 Telas simultâneas</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm text-white">Todos os Canais e VOD</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm text-white">Qualidade 4K/FHD</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm text-white">Guia de Programação (EPG)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm text-brand-400 font-medium">Suporte Prioritário</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#" class="w-full block text-center bg-gradient-to-r from-brand-500 to-emerald-500 hover:from-brand-400 hover:to-emerald-400 text-dark-900 font-bold py-3 rounded-xl transition btn-pulse relative z-10">
+                        Assinar Trimestral
+                    </a>
+                </div>
+
+                <!-- Anual -->
+                <div class="glass-card rounded-2xl p-8 border border-gray-700 flex flex-col hover:border-gray-500 transition reveal" style="transition-delay: 300ms;">
+                    <h3 class="text-xl font-medium text-gray-300 mb-2">Anual</h3>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">R$ 199</span><span class="text-gray-400">,90</span>
+                        <p class="text-xs text-brand-400 mt-1">Equivale a R$ 16,65/mês</p>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-6">Máxima economia para ter o melhor do entretenimento o ano todo.</p>
+                    
+                    <ul class="space-y-4 mb-8 flex-1">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm">Até 4 Telas simultâneas</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm">Tudo liberado (Conteúdo +18)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm">Qualidade 4K/FHD</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-brand-500"></i>
+                            <span class="text-sm">Ativação Imediata VIP</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#" class="w-full block text-center bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 rounded-xl transition">
+                        Assinar Anual
+                    </a>
+                </div>
+            </div>
+
+            <!-- Selos de Segurança -->
+            <div class="mt-16 flex flex-wrap justify-center items-center gap-6 md:gap-12 opacity-80 reveal" style="transition-delay: 400ms;">
+                <div class="flex items-center gap-2 text-gray-400">
+                    <i class="fa-solid fa-lock text-brand-500 text-2xl"></i>
+                    <span class="text-sm font-medium uppercase tracking-wider">Pagamento Seguro</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-400">
+                    <i class="fa-solid fa-shield-halved text-brand-500 text-2xl"></i>
+                    <span class="text-sm font-medium uppercase tracking-wider">Dados Protegidos</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-400">
+                    <i class="fa-solid fa-medal text-brand-500 text-2xl"></i>
+                    <span class="text-sm font-medium uppercase tracking-wider">Garantia de 7 Dias</span>
+                </div>
+            </div>
+            
+            <!-- Botão flutuante de teste -->
+            <div class="text-center mt-12 reveal">
+                <p class="text-gray-400 mb-4">Ainda em dúvida? Não se preocupe.</p>
+                <a href="#" class="inline-flex items-center gap-2 text-brand-400 hover:text-brand-300 font-bold transition border-b border-brand-500/50 hover:border-brand-400 pb-1">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> Solicite um Teste Grátis de 4 Horas agora
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos Section -->
+    <section id="depoimentos" class="py-20 bg-gradient-to-b from-dark-900 to-dark-800 relative">
+        <!-- Divisor Neon -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-px bg-gradient-to-r from-transparent via-brand-500/30 to-transparent"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-brand-500/50 to-transparent blur-[2px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">O que dizem nossos <span class="text-brand-500">Clientes</span></h2>
+                <p class="text-gray-400 text-lg">A satisfação de quem já não vive sem a qualidade da ActPlay.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Depoimento 1 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition duration-300 relative flex flex-col reveal" style="transition-delay: 100ms;">
+                    <i class="fa-solid fa-quote-right absolute top-6 right-6 text-4xl text-gray-700 opacity-50"></i>
+                    <div class="flex gap-1 text-yellow-500 mb-6">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 mb-8 italic flex-1">"Finalmente encontrei um serviço que não trava nos dias de jogos importantes! A qualidade de imagem é incrível e o catálogo de filmes é sempre atualizado. Recomendo 100%."</p>
+                    <div class="flex items-center gap-4 mt-auto">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Avatar Cliente" class="w-12 h-12 rounded-full border-2 border-brand-500 object-cover">
+                        <div>
+                            <h4 class="font-bold text-white">Marcos Silva</h4>
+                            <p class="text-xs text-gray-400">Cliente há 8 meses</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Depoimento 2 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition duration-300 relative flex flex-col reveal" style="transition-delay: 200ms;">
+                    <i class="fa-solid fa-quote-right absolute top-6 right-6 text-4xl text-gray-700 opacity-50"></i>
+                    <div class="flex gap-1 text-yellow-500 mb-6">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-300 mb-8 italic flex-1">"Tive dúvidas na hora de configurar na minha Smart TV, mas o suporte pelo WhatsApp foi espetacular. Resolveram o meu problema em menos de 5 minutos. Muito satisfeito."</p>
+                    <div class="flex items-center gap-4 mt-auto">
+                        <img src="https://i.pravatar.cc/150?img=47" alt="Avatar Cliente" class="w-12 h-12 rounded-full border-2 border-brand-500 object-cover">
+                        <div>
+                            <h4 class="font-bold text-white">Ana Paula</h4>
+                            <p class="text-xs text-gray-400">Cliente Trimestral</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Depoimento 3 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition duration-300 relative flex flex-col reveal" style="transition-delay: 300ms;">
+                    <i class="fa-solid fa-quote-right absolute top-6 right-6 text-4xl text-gray-700 opacity-50"></i>
+                    <div class="flex gap-1 text-yellow-500 mb-6">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <p class="text-gray-300 mb-8 italic flex-1">"Cancelei todas as minhas outras assinaturas de streaming. A ActPlay tem absolutamente tudo o que eu preciso, desde séries lançamentos até os canais de esportes para o meu marido."</p>
+                    <div class="flex items-center gap-4 mt-auto">
+                        <img src="https://i.pravatar.cc/150?img=32" alt="Avatar Cliente" class="w-12 h-12 rounded-full border-2 border-brand-500 object-cover">
+                        <div>
+                            <h4 class="font-bold text-white">Juliana Costa</h4>
+                            <p class="text-xs text-gray-400">Cliente Semestral</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-dark-800 relative">
+        <!-- Divisor Neon -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-px bg-gradient-to-r from-transparent via-brand-500/30 to-transparent"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-brand-500/50 to-transparent blur-[2px]"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Perguntas <span class="text-brand-500">Frequentes</span></h2>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="border border-gray-700 rounded-xl overflow-hidden glass-card">
+                    <button class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:text-brand-500 transition">
+                        <span class="font-medium text-lg">Como funciona a entrega do acesso?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                        <p>Após a confirmação do pagamento, você receberá instantaneamente seu login, senha e o tutorial passo a passo para instalação no seu e-mail e WhatsApp cadastrados.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="border border-gray-700 rounded-xl overflow-hidden glass-card">
+                    <button class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:text-brand-500 transition">
+                        <span class="font-medium text-lg">Preciso de internet rápida?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                        <p>Recomendamos uma internet mínima de 15 Mega reais para canais SD/HD e 30 Mega para canais em 4K, garantindo assim uma experiência sem travamentos.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item 3 -->
+                <div class="border border-gray-700 rounded-xl overflow-hidden glass-card">
+                    <button class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:text-brand-500 transition">
+                        <span class="font-medium text-lg">Posso cancelar a qualquer momento?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                        <p>Sim! Não temos contrato de fidelidade nem multas rescisórias. A assinatura é pré-paga, você paga pelo tempo contratado e pode não renovar quando desejar.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item 4 -->
+                <div class="border border-gray-700 rounded-xl overflow-hidden glass-card">
+                    <button class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:text-brand-500 transition">
+                        <span class="font-medium text-lg">Vocês dão suporte caso eu não consiga instalar?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                        <p>Com certeza. Nossa equipe de suporte via WhatsApp está disponível todos os dias para te guiar passo a passo na instalação em qualquer dispositivo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-900 py-12 relative">
+        <!-- Divisor Neon -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-px bg-gradient-to-r from-transparent via-brand-500/30 to-transparent"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-brand-500/50 to-transparent blur-[2px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-play text-brand-500 text-2xl"></i>
+                        <span class="font-bold text-2xl">Act<span class="text-brand-500">Play</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">A melhor lista premium do mercado. Entretenimento de qualidade para toda a família com estabilidade e suporte.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:text-dark-900 hover:bg-brand-500 transition">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:text-dark-900 hover:bg-brand-500 transition">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#destaques" class="hover:text-brand-400 transition">Destaques</a></li>
+                        <li><a href="#planos" class="hover:text-brand-400 transition">Assinar</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Teste Grátis</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Área do Cliente</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-brand-400 transition">Termos de Serviço</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Política de Privacidade</a></li>
+                        <li><a href="#" class="hover:text-brand-400 transition">Reembolso</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Atendimento</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-brand-500"></i> contato@actplay.store
+                        </li>
+                        <li class="flex items-center gap-2 mt-2">
+                            <i class="fa-brands fa-whatsapp text-brand-500"></i> (13) 99680-8789
+                        </li>
+                        <li class="mt-4">
+                            <p class="text-xs border border-gray-800 p-2 text-center rounded text-brand-500/70">Seg - Dom: 08:00 às 23:00</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-sm">© 2026 ActPlay IPTV. Todos os direitos reservados.</p>
+                <div class="flex gap-4 text-gray-500 text-2xl">
+                    <i class="fa-brands fa-cc-visa hover:text-white transition"></i>
+                    <i class="fa-brands fa-cc-mastercard hover:text-white transition"></i>
+                    <i class="fa-solid fa-qrcode text-xl flex items-center hover:text-white transition"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botão WhatsApp Flutuante -->
+    <a href="http://api.whatsapp.com/send/?phone=5513996808789&text=Ol%C3%A1%2C+gostaria+de+saber+mais+sobre+a+Actplay&type=phone_number&app_absent=0" class="fixed bottom-6 right-6 z-[100] bg-[#25D366] text-white w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform duration-300 group">
+        <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
+        <!-- Efeito de notificação pulsante -->
+        <span class="absolute top-0 right-0 flex h-4 w-4">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-4 w-4 bg-brand-500"></span>
+        </span>
+    </a>
+
+    <!-- Scripts para interatividade -->
+    <script>
+        // Lógica do Menu Mobile
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Efeito blur e background no Navbar ao rolar a página
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg', 'border-brand-500/20');
+                nav.classList.replace('glass-card', 'bg-dark-900/95');
+                nav.classList.remove('border-transparent');
+            } else {
+                nav.classList.remove('shadow-lg', 'border-brand-500/20');
+                nav.classList.add('border-transparent');
+                nav.classList.replace('bg-dark-900/95', 'glass-card');
+            }
+        });
+
+        // Lógica do FAQ (Accordion)
+        const faqBtns = document.querySelectorAll('.faq-btn');
+        
+        faqBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('i');
+                
+                document.querySelectorAll('.faq-content').forEach(item => {
+                    if (item !== content) {
+                        item.classList.add('hidden');
+                        item.previousElementSibling.querySelector('i').classList.remove('rotate-180');
+                    }
+                });
+
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+
+        // Lógica de Scroll Reveal
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        window.addEventListener("scroll", reveal);
+        // Chamar uma vez para carregar os elementos que já estão na tela ao abrir o site
+        reveal();
+    </script>
+</body>
+</html>
