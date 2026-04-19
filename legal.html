@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termos e Privacidade - ActPlay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            400: '#4ade80',
+                            500: '#39ff14', // Verde Neon
+                            600: '#22c55e',
+                            900: '#064e3b',
+                        },
+                        dark: {
+                            800: '#111827',
+                            900: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        /* Estilos para o conteúdo legal */
+        .legal-content h2 {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .legal-content h3 {
+            color: #e5e7eb;
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .legal-content p {
+            color: #9ca3af;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        .legal-content ul {
+            color: #9ca3af;
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .legal-content li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-white font-sans antialiased overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass-card transition-all duration-300 border-b border-brand-500/20" id="navbar">
+        <div class="w-full mx-auto px-4 sm:px-8 lg:px-12">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
+                    <i class="fa-solid fa-play text-brand-500 text-2xl"></i>
+                    <span class="font-bold text-2xl tracking-tight">Act<span class="text-brand-500">Play</span></span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html#destaques" class="text-gray-300 hover:text-white transition">Destaques</a>
+                    <a href="index.html#assista-onde-quiser" class="text-gray-300 hover:text-white transition">Funcionalidades</a>
+                    <a href="index.html#dispositivos" class="text-gray-300 hover:text-white transition">Dispositivos</a>
+                    <a href="index.html" class="bg-transparent border border-brand-500/50 hover:bg-brand-500 text-white hover:text-dark-900 px-6 py-2 rounded-full font-bold transition">
+                        Voltar ao Início
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-t border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+                <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md font-medium">Voltar ao Início</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Simples -->
+    <section class="pt-32 pb-12 bg-gradient-to-b from-dark-800 to-dark-900 border-b border-gray-800 relative">
+        <div class="absolute inset-0 bg-brand-500/5 blur-[100px] pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Termos & <span class="text-brand-500">Privacidade</span></h1>
+            <p class="text-gray-400 text-lg">Termos de Serviço e Política de Privacidade da ActPlay.</p>
+            <p class="text-sm text-brand-500/70 mt-2">Última atualização: 18 de Abril de 2026</p>
+        </div>
+    </section>
+
+    <!-- Conteúdo Principal -->
+    <main class="py-16 bg-dark-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="glass-card p-8 md:p-12 rounded-2xl border border-gray-800 shadow-2xl relative overflow-hidden">
+                <!-- Efeito visual no topo do card -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent"></div>
+
+                <div class="legal-content">
+                    
+                    <!-- TERMOS DE SERVIÇO -->
+                    <div class="flex items-center gap-3 mb-8">
+                        <i class="fa-solid fa-file-contract text-brand-500 text-3xl"></i>
+                        <h2 style="margin: 0;" class="text-3xl">Termos de Serviço</h2>
+                    </div>
+
+                    <p>Ao aceder e utilizar os serviços da ActPlay, o utilizador concorda em cumprir e vincular-se aos seguintes Termos de Serviço. Leia-os atentamente antes de efetuar qualquer subscrição.</p>
+
+                    <h3>1. Descrição do Serviço</h3>
+                    <p>A ActPlay fornece um serviço de subscrição de transmissão de vídeo (IPTV) que permite aos nossos membros aceder a canais de televisão em direto, filmes e séries transmitidos pela Internet para determinados dispositivos conetados.</p>
+
+                    <h3>2. Registo e Conta</h3>
+                    <ul>
+                        <li>Para utilizar o nosso serviço, o utilizador deve registar-se e fornecer informações precisas e completas.</li>
+                        <li>O utilizador é responsável por manter a confidencialidade das suas credenciais de acesso (nome de utilizador e palavra-passe).</li>
+                        <li>A partilha da conta em simultâneo num número de ecrãs superior ao permitido pelo seu plano resultará no bloqueio automático ou suspensão da conta.</li>
+                    </ul>
+
+                    <h3>3. Faturação e Cancelamento</h3>
+                    <ul>
+                        <li>O serviço é faturado numa base pré-paga (Mensal, Trimestral ou Anual).</li>
+                        <li>Não existem contratos de fidelização ou taxas de cancelamento. O utilizador pode não renovar a sua subscrição no final do ciclo de faturação.</li>
+                        <li>Reembolsos serão processados apenas se solicitados no prazo de até 7 dias após a compra, caso o utilizador comprove falhas técnicas impossíveis de resolver pela nossa equipa de suporte.</li>
+                    </ul>
+
+                    <h3>4. Requisitos Técnicos</h3>
+                    <p>A qualidade da transmissão de conteúdos pode variar de dispositivo para dispositivo e pode ser afetada por diversos fatores, como a localização do utilizador, a largura de banda disponível e a velocidade da ligação à Internet. Recomendamos uma velocidade mínima de 15 Mbps para resolução HD, 30 Mbps para FHD e 50 Mbps para 4K.</p>
+
+                    <h3>5. Utilização Aceitável</h3>
+                    <p>O utilizador concorda em utilizar o serviço da ActPlay apenas para fins pessoais e não comerciais. É expressamente proibida a retransmissão, gravação para distribuição pública, ou venda do nosso sinal a terceiros.</p>
+
+                    <div class="w-full h-px bg-gray-800 my-12"></div>
+
+                    <!-- POLÍTICA DE PRIVACIDADE -->
+                    <div class="flex items-center gap-3 mb-8">
+                        <i class="fa-solid fa-shield-halved text-brand-500 text-3xl"></i>
+                        <h2 style="margin: 0;" class="text-3xl">Política de Privacidade</h2>
+                    </div>
+
+                    <p>A sua privacidade é uma prioridade para a ActPlay. Esta política explica como recolhemos, utilizamos e protegemos as suas informações pessoais.</p>
+
+                    <h3>1. Recolha de Dados</h3>
+                    <p>Recolhemos apenas as informações necessárias para a prestação do nosso serviço, incluindo:</p>
+                    <ul>
+                        <li>Informações de contato: Nome e número de telefone (WhatsApp).</li>
+                        <li>Informações de pagamento: Dados processados de forma segura através do sistema de pagamento do MercadoPago ou Pix (não armazenamos dados completos de cartões de crédito).</li>
+                        <li>Dados técnicos: Endereço IP, tipo de dispositivo utilizado para aceder ao serviço, para fins de otimização de rotas e segurança anti-partilha.</li>
+                    </ul>
+
+                    <h3>2. Utilização das Informações</h3>
+                    <p>Utilizamos os seus dados para:</p>
+                    <ul>
+                        <li>Ativar, gerir e faturar a sua subscrição.</li>
+                        <li>Prestar assistência técnica e suporte ao cliente.</li>
+                        <li>Enviar atualizações sobre o sistema, manutenções programadas ou alterações na sua conta.</li>
+                    </ul>
+
+                    <h3>3. Partilha de Dados</h3>
+                    <p>A ActPlay não vende, aluga ou comercializa as suas informações pessoais a terceiros. Os seus dados são partilhados apenas com prestadores de serviços essenciais ao funcionamento da plataforma (ex: gateways de pagamento e servidores de envio de e-mails), sempre de forma encriptada.</p>
+
+                    <h3>4. Segurança</h3>
+                    <p>Implementamos medidas de segurança físicas, eletrónicas e administrativas para proteger os seus dados pessoais contra o acesso, utilização ou divulgação não autorizados. O nosso site utiliza encriptação SSL em todas as páginas.</p>
+
+                    <h3>5. Contactos</h3>
+                    <p>Se tiver alguma dúvida sobre os nossos Termos de Serviço ou Política de Privacidade, contate a nossa equipa de apoio através do nosso <Strong>WhatsApp</Strong>  oficial.</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="index.html" class="inline-flex items-center gap-2 text-brand-500 hover:text-brand-400 font-bold transition">
+                    <i class="fa-solid fa-arrow-left"></i> Voltar à Página Principal
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer (Idêntico à página inicial) -->
+    <footer class="bg-dark-900 py-12 relative border-t border-gray-800">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-4/5 h-px bg-gradient-to-r from-transparent via-brand-500/30 to-transparent"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-brand-500/50 to-transparent blur-[2px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-play text-brand-500 text-2xl"></i>
+                        <span class="font-bold text-2xl">Act<span class="text-brand-500">Play</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">A melhor lista premium do mercado. Entretenimento de qualidade para toda a família com estabilidade e suporte.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:text-dark-900 hover:bg-brand-500 transition">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:text-dark-900 hover:bg-brand-500 transition">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="index.html#destaques" class="hover:text-brand-400 transition">Destaques</a></li>
+                        <li><a href="index.html#planos" class="hover:text-brand-400 transition">Assinar</a></li>
+                        <li><a href="https://api.whatsapp.com/send/?phone=5513996808789&text=Ol%C3%A1%2C+vim+pelo+site+Actplay,+gostaria+de+solicitar+um+teste+gr%C3%A1tis%21&type=phone_number&app_absent=0" class="hover:text-brand-400 transition">Teste Grátis</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="legal.html" class="hover:text-brand-400 transition text-brand-500">Termos de Serviço</a></li>
+                        <li><a href="legal.html" class="hover:text-brand-400 transition text-brand-500">Política de Privacidade</a></li>
+                        <li><a href="legal.html" class="hover:text-brand-400 transition text-brand-500">Reembolso</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Atendimento</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-brand-500"></i> contato@actplay.shop
+                        </li>
+                        <li class="flex items-center gap-2 mt-2">
+                            <i class="fa-brands fa-whatsapp text-brand-500"></i> (13) 99680-8789
+                        </li>
+                        <li class="mt-4">
+                            <p class="text-xs border border-gray-800 p-2 text-center rounded text-brand-500/70">Seg - Dom: 08:00 às 23:00</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-sm">© 2026 ActPlay IPTV. Todos os direitos reservados.</p>
+                <div class="flex gap-4 text-gray-500 text-2xl">
+                    <i class="fa-brands fa-cc-visa hover:text-white transition"></i>
+                    <i class="fa-brands fa-cc-mastercard hover:text-white transition"></i>
+                    <i class="fa-solid fa-qrcode text-xl flex items-center hover:text-white transition"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Lógica do Menu Mobile
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Efeito blur e background no Navbar ao rolar a página
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-lg', 'bg-dark-900/95');
+                nav.classList.replace('border-brand-500/20', 'border-transparent');
+            } else {
+                nav.classList.remove('shadow-lg', 'bg-dark-900/95');
+                nav.classList.replace('border-transparent', 'border-brand-500/20');
+            }
+        });
+    </script>
+</body>
+</html>
