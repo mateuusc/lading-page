@@ -1,0 +1,14 @@
+{
+  "name": "actplay-iptv",
+  "version": "1.0.0",
+  "description": "Landing Page ActPlay IPTV otimizada para SEO e Core Web Vitals",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./src/output.css --minify",
+    "build:webp": "node -e \"const fs=require('fs'),path=require('path'),sharp=require('sharp');function walk(d){if(!fs.existsSync(d))return;for(const f of fs.readdirSync(d)){const p=path.join(d,f);if(fs.statSync(p).isDirectory())walk(p);else if(p.toLowerCase().endsWith('.png'))sharp(p).webp({quality:85}).toFile(p.replace(/\\.png$/i,'.webp')).then(()=>console.log('WebP gerado:',p.replace(/\\.png$/i,'.webp')));}}walk('./src/images');\"",
+    "build": "npm run build:css && npm run build:webp"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5",
+    "tailwindcss": "^3.4.14"
+  }
+}
